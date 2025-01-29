@@ -1,10 +1,14 @@
+import 'package:dartz/dartz.dart';
+
 abstract class AuthRepo {
   Future<bool> login({
     required String phoneNumber,
     required String password,
   });
 
-  // TODO signup abstract method yozinglar
-
-  // TODO keyin shu funksiyani usecase yaratib ishlatinglar
+  Future<Either<dynamic, bool>> register({
+    required String phoneNumber,
+    required String email,
+    required String password,
+  });
 }

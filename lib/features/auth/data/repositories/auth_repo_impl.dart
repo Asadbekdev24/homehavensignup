@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:dartz/dartz.dart';
+import 'package:home_haven_clean/core/common/exceptions/custom_exception.dart';
 
 import 'package:home_haven_clean/features/auth/data/data_source/auth_remote_data_source.dart';
 import 'package:home_haven_clean/features/auth/domain/repositories/auth_repo.dart';
@@ -20,5 +22,21 @@ class AuthRepoImpl implements AuthRepo {
     );
   }
 
-  //  TODO 3 domain layerdagi repositoryni sign up methodini override qiling.
+  @override
+  Future<Either<dynamic, bool>> register({
+    required String phoneNumber,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final bool = await authRemoteDataSource.register(
+        email: email,
+        password: password,
+        phoneNumber: phoneNumber,
+      );
+      return Right(bool!);
+    } on ServerException catch (e) {
+      return Left(e.errorMessage);
+    }
+  }
 }
