@@ -4,4 +4,7 @@ class NetworkConstants {
 
   // auth url
   static String authUrl = "$baseUrl/api/auth";
+
+  // banners url
+  static String bannerUrl = "$baseUrl/api/banner";
 }

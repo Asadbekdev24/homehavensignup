@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:home_haven_clean/features/auth/domain/repositories/auth_repo.dart';
 
 class LoginUsecase {
@@ -5,7 +6,7 @@ class LoginUsecase {
 
   LoginUsecase({required this.authRepo});
 
-  Future<bool> call({
+  Future<Either<dynamic, bool>> call({
     required String phoneNumber,
     required String password,
   }) {

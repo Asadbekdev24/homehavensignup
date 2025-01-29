@@ -9,7 +9,7 @@ import 'package:home_haven_clean/core/utils/constants/network_constants.dart';
 import 'package:home_haven_clean/core/utils/constants/prefs_keys.dart';
 
 sealed class AuthRemoteDataSource {
-  Future<bool> login({
+  Future<bool?> login({
     required String phoneNumber,
     required String password,
   });
@@ -27,7 +27,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl();
 
   @override
-  Future<bool> login({
+  Future<bool?> login({
     required String phoneNumber,
     required String password,
   }) async {
@@ -54,9 +54,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return true;
       }
       return false;
-    } catch (e) {
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        log("User with same credentials already exist.");
+        throw ServerException(
+            errorMessage: "Incorrect credentials are provided",
+            statusCode: 400);
+      }
       log("Error happened: while logging in: $e");
-      throw Exception(e);
+    } catch (e) {
+      throw ServerException(
+          errorMessage: "Please try again later.", statusCode: 500);
     }
   }
 

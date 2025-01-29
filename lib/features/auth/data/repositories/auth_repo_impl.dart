@@ -10,16 +10,20 @@ class AuthRepoImpl implements AuthRepo {
 
   AuthRepoImpl({required this.authRemoteDataSource});
   @override
-  Future<bool> login({
+  Future<Either<dynamic, bool>> login({
     required String phoneNumber,
     required String password,
   }) async {
     log("data in repo impl: $phoneNumber, $password");
-
-    return await authRemoteDataSource.login(
-      phoneNumber: phoneNumber,
-      password: password,
-    );
+    try {
+      final bool = await authRemoteDataSource.login(
+        phoneNumber: phoneNumber,
+        password: password,
+      );
+      return Right(bool ?? false);
+    } on ServerException catch (e) {
+      return Left(e.errorMessage);
+    }
   }
 
   @override

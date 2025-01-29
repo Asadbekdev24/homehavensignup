@@ -6,6 +6,7 @@ import 'package:home_haven_clean/features/auth/domain/repositories/auth_repo.dar
 import 'package:home_haven_clean/features/auth/domain/usecases/login_usecase.dart';
 import 'package:home_haven_clean/features/auth/domain/usecases/register_usecase.dart';
 import 'package:home_haven_clean/features/auth/presentation/controller/auth_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
@@ -13,11 +14,12 @@ Future<void> initInjection() async {
   getIt.registerLazySingleton(
     () => Dio(),
   );
+  final prefs= await SharedPreferences.getInstance();
+  getIt.registerLazySingleton<SharedPreferences>(() => prefs);
   await authInit();
 }
 
 Future<void> authInit() async {
-  // TODO registerUsecaseni bu yerda regisgter qilib qo'yinglar
   getIt
     ..registerLazySingleton<LoginUsecase>(() => LoginUsecase(authRepo: getIt()))
     ..registerLazySingleton<RegisterUsecase>(
