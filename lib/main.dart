@@ -3,6 +3,7 @@ import 'package:home_haven_clean/core/common/app/services/injcetion_container.da
 import 'package:home_haven_clean/core/utils/constants/prefs_keys.dart';
 import 'package:home_haven_clean/features/auth/presentation/controller/auth_provider.dart';
 import 'package:home_haven_clean/features/auth/presentation/screens/login_screen.dart';
+import 'package:home_haven_clean/features/home/presentation/controllers/home_controller.dart';
 import 'package:home_haven_clean/features/home/presentation/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => getIt<AuthProvider>(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => getIt<AuthProvider>(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => getIt<HomeProvider>(),
+        ),
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

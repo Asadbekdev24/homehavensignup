@@ -6,6 +6,11 @@ import 'package:home_haven_clean/features/auth/domain/repositories/auth_repo.dar
 import 'package:home_haven_clean/features/auth/domain/usecases/login_usecase.dart';
 import 'package:home_haven_clean/features/auth/domain/usecases/register_usecase.dart';
 import 'package:home_haven_clean/features/auth/presentation/controller/auth_provider.dart';
+import 'package:home_haven_clean/features/home/data/datasource/home_remote_data_source.dart';
+import 'package:home_haven_clean/features/home/data/repositories/home_repo_impl.dart';
+import 'package:home_haven_clean/features/home/domain/repositories/home_repo.dart';
+import 'package:home_haven_clean/features/home/domain/usecases/get_banners_usecase.dart';
+import 'package:home_haven_clean/features/home/presentation/controllers/home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
@@ -14,9 +19,10 @@ Future<void> initInjection() async {
   getIt.registerLazySingleton(
     () => Dio(),
   );
-  final prefs= await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
   getIt.registerLazySingleton<SharedPreferences>(() => prefs);
   await authInit();
+  await homeInit();
 }
 
 Future<void> authInit() async {
@@ -31,5 +37,19 @@ Future<void> authInit() async {
         () => AuthRemoteDataSourceImpl())
     ..registerLazySingleton(
       () => AuthProvider(),
+    );
+}
+
+// home
+Future<void> homeInit() async {
+  getIt
+    ..registerLazySingleton(() => GetBannersUsecase(homeRepo: getIt()))
+    ..registerLazySingleton<HomeRepo>(
+        () => HomeRepoImpl(homeRemoteDataSource: getIt()))
+    ..registerLazySingleton<HomeRemoteDataSource>(
+      () => HomeRemoteDataSourceImpl(),
+    )
+    ..registerLazySingleton<HomeProvider>(
+      () => HomeProvider(),
     );
 }
