@@ -26,50 +26,83 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer<AuthProvider>(
       builder: (context, authProvider, child) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: phoneController,
-              decoration: InputDecoration(
-                hintText: "Phone",
-              ),
-            ),
-            TextField(
-              controller: emailController,
-              decoration: InputDecoration(
-                hintText: "Email",
-              ),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                hintText: "password",
-              ),
-            ),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () async {
-                await authProvider.register(
-                  phoneNumber: phoneController.text.trim(),
-                  email: emailController.text.trim(),
-                  password: passwordController.text.trim(),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(authProvider.message),
+        return Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: phoneController,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
                   ),
-                );
-              },
-              child: authProvider.isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Text(
-                      "Register",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  hintText: "Phone",
+                ),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  hintText: "Email",
+                ),
+              ),
+              SizedBox(
+                height: 32,
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  hintText: "password",
+                ),
+              ),
+              SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () async {
+                  await authProvider.register(
+                    phoneNumber: phoneController.text.trim(),
+                    email: emailController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(authProvider.message),
                     ),
-            ),
-          ],
+                  );
+                },
+                child: authProvider.isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Text(
+                        "Register",
+                      ),
+              ),
+            ],
+          ),
         );
       },
     ));
