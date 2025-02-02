@@ -37,14 +37,30 @@ class _LoginScreenState extends State<LoginScreen> {
             TextField(
               controller: phoneController,
               decoration: InputDecoration(
-                hintText: "phone",
-              ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  hintText: "Phone",
+                ),
             ),
             TextField(
               controller: passwordController,
               decoration: InputDecoration(
-                hintText: "password",
-              ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  hintText: "Password",
+                ),
             ),
             SizedBox(height: 50),
             ElevatedButton(
