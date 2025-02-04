@@ -31,76 +31,81 @@ class _LoginScreenState extends State<LoginScreen> {
             child: CircularProgressIndicator(),
           );
         }
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: phoneController,
-              decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey),
+        return Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: phoneController,
+                decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    hintText: "Phone",
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  hintText: "Phone",
-                ),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  hintText: "Password",
-                ),
-            ),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () async {
-                await authProvider.loginWithPhone(
-                  phoneNumber: phoneController.text.trim(),
-                  password: passwordController.text.trim(),
-                );
+              ),
 
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(authProvider.message),
+              SizedBox(height:50),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    hintText: "Password",
                   ),
-                );
-
-                if (authProvider.message.contains("succcesfuly")) {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-                      ));
-                }
-              },
-              child: Text(
-                "Login",
               ),
-            ),
-            SizedBox(height: 20),
-            TextButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegisterScreen(),
+              SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () async {
+                  await authProvider.loginWithPhone(
+                    phoneNumber: phoneController.text.trim(),
+                    password: passwordController.text.trim(),
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(authProvider.message),
+                    ),
+                  );
+
+                  if (authProvider.message.contains("succcesfuly")) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen(),
+                        ));
+                  }
+                },
+                child: Text(
+                  "Login",
                 ),
               ),
-              child: Text(
-                "Don't have an account? Register",
+              SizedBox(height: 20),
+              TextButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterScreen(),
+                  ),
+                ),
+                child: Text(
+                  "Don't have an account? Register",
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     ));

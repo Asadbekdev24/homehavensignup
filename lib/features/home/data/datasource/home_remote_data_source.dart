@@ -4,10 +4,12 @@ import 'package:home_haven_clean/core/common/exceptions/custom_exception.dart';
 import 'package:home_haven_clean/core/utils/constants/network_constants.dart';
 import 'package:home_haven_clean/core/utils/constants/prefs_keys.dart';
 import 'package:home_haven_clean/features/home/data/models/banner_model.dart';
+import 'package:home_haven_clean/features/home/data/models/product_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class HomeRemoteDataSource {
   Future<BannerModel?> getBanners();
+  Future<ProducModel?> getProducts();
 }
 
 class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
@@ -25,11 +27,35 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         final payload = response.data;
         return BannerModel.fromJson(payload);
       }
+
+      return null;
     } catch (e) {
       throw ServerException(
         errorMessage: "Error happened while fetching banners",
         statusCode: 500,
       );
+    }
+  }
+
+  @override
+  Future<ProducModel?> getProducts() async {
+    final String? token =
+        getIt<SharedPreferences>().getString(PrefsKeys.tokenKey);
+
+    try {
+      final response = await dio.get(
+        NetworkConstants.productstUrl,
+        options: Options(headers: {"Authorization": "Bearer $token"}),
+      );
+
+      if(response.statusCode==200)
+      {
+        final payload=response.data;
+        return ProducModel.fromJson(payload);
+      }
+      return null;
+    } catch (e) {
+      throw ServerException(errorMessage: "Error happened while fetching products", statusCode: 500);
     }
   }
 }

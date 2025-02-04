@@ -10,6 +10,7 @@ import 'package:home_haven_clean/features/home/data/datasource/home_remote_data_
 import 'package:home_haven_clean/features/home/data/repositories/home_repo_impl.dart';
 import 'package:home_haven_clean/features/home/domain/repositories/home_repo.dart';
 import 'package:home_haven_clean/features/home/domain/usecases/get_banners_usecase.dart';
+import 'package:home_haven_clean/features/home/domain/usecases/get_products_usecase.dart';
 import 'package:home_haven_clean/features/home/presentation/controllers/home_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,6 +45,9 @@ Future<void> authInit() async {
 Future<void> homeInit() async {
   getIt
     ..registerLazySingleton(() => GetBannersUsecase(homeRepo: getIt()))
+    ..registerLazySingleton(
+      () => GetProductsUsecase(homeRepo: getIt()),
+    )
     ..registerLazySingleton<HomeRepo>(
         () => HomeRepoImpl(homeRemoteDataSource: getIt()))
     ..registerLazySingleton<HomeRemoteDataSource>(
